@@ -12,11 +12,44 @@
     <div class="difficulty-level">
         <h2 class="difficulty-level__title">Выбери сложность</h2>
         <div class="level-buttons">
-            <button class="level-button">1</button>
-            <button class="level-button">2</button>
-            <button class="level-button">3</button>
+            <button class="level-button" value="1">1</button>
+            <button class="level-button" value="2">2</button>
+            <button class="level-button" value="3">3</button>
         </div>
         <button class="start-button">Старт</button>
     </div>
+<script>
+    const levelButtons = document.querySelectorAll('.level-button');
+    const startButton = document.querySelector('.start-button');
+
+    window.level; 
+
+    levelButtons.forEach(levelButton => {
+        levelButton.addEventListener('click', () => {
+            window.level = levelButton.value;
+            if (levelButton.value === '1') {
+                levelButtons[0].classList.add('level-button_active');
+                levelButtons[1].classList.remove('level-button_active');
+                levelButtons[2].classList.remove('level-button_active');
+            }
+            if (levelButton.value === '2') {
+                levelButtons[1].classList.add('level-button_active');
+                levelButtons[0].classList.remove('level-button_active');
+                levelButtons[2].classList.remove('level-button_active')
+
+            }
+            if (levelButton.value === '3') {
+                levelButtons[2].classList.add('level-button_active');
+                levelButtons[0].classList.remove('level-button_active');
+                levelButtons[1].classList.remove('level-button_active')
+
+            }
+        })
+    })
+
+    startButton.addEventListener('click', () => {
+        window.location.href = 'secondpage.html';
+    })
+</script>
 </body>
 </html>

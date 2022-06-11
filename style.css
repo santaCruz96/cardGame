@@ -57,6 +57,14 @@ body {
     color: #0080C1;
 }
 
+.level-button:hover {
+    border: 2px solid #0080C1;
+}
+
+.level-button_active {
+    border: 2px solid #0080C1;
+}
+
 .start-button {
     font-family: inherit;
     margin-top: 67px;
