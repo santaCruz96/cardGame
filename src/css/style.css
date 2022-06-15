@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Stratos LC Web', sans-serif;
+    background-color: #004980;
+    height: 774px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.difficulty-level {
+    width: 480px;
+    height: 459px;
+    background: #c2f5ff;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.difficulty-level-title {
+    padding-top: 52px;
+    width: 208px;
+    height: 96px;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    color: #004980;
+}
+
+.level-buttons {
+    display: flex;
+    padding-top: 48px;
+    gap: 24px;
+}
+
+.level-button {
+    font-family: inherit;
+    width: 98px;
+    height: 98px;
+    background: #fff;
+    border-radius: 12px;
+    border: none;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #0080c1;
+}
+
+.level-button:hover {
+    border: 2px solid #0080c1;
+}
+
+.level-button-active {
+    border: 2px solid #0080c1;
+}
+
+.start-button {
+    font-family: inherit;
+    margin-top: 67px;
+    width: 246px;
+    height: 50px;
+    background: #7ac100;
+    border-radius: 12px;
+    border: none;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.container {
+    width: 979px;
+    height: 703px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 35px;
+}
+
+.timer {
+    position: relative;
+    width: 155px;
+    height: 91px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+.min {
+    position: absolute;
+    width: 28px;
+    height: 32px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 32px;
+    padding-right: 88px;
+}
+
+.sec {
+    position: absolute;
+    width: 26px;
+    height: 32px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 32px;
+    padding-right: 5px;
+}
+
+.time {
+    width: 155px;
+    height: 72px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 72px;
+    padding-top: 20px;
+}
+
+.repeat-button {
+    font-family: inherit;
+    width: 246px;
+    height: 50px;
+    margin-bottom: 13px;
+    background: #7ac100;
+    border-radius: 12px;
+    border: none;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 4px;
+    width: 95px;
+    height: 133px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shirt {
+    border-radius: 4px;
+}
