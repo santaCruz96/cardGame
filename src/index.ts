@@ -1,40 +1,43 @@
 import './css/style.css'
 
-const screen = document.querySelector('.screen')
-const levelButtons = screen.querySelectorAll('.level-button')
-const startButton = screen.querySelector('.start-button')
+const screen: any = document.querySelector('.screen')
+const levelButtons: any = document.querySelectorAll('.level-button')
+const startButton: any = document.querySelector('.start-button')
 
-window.level
-window.cardsPairs
-let cardsPack = []
+let level: string
+let cardsPairs: number
+let cardsPack: { name: string; imagePath: string }[] = []
 const shirt = './img/shirt.jpg'
 let hasFlippedCard = false
-let firstCard, secondCard
+let firstCard: { dataset: { name: string } }, secondCard: { dataset: { name: string } }
 let score = 0
+let totalTime: string
+const winImg = './img/winImg.png'
+const loseImg = './img/loseImg.png'
 
-levelButtons.forEach((levelButton) => {
+levelButtons.forEach((levelButton: any) => {
     levelButton.addEventListener('click', () => {
         startButton.disabled = false
-        window.level = levelButton.value
+        level = levelButton.value
         if (levelButton.value === '1') {
-            window.cardsPairs = 3
+            cardsPairs = 3
             levelButtons[0].classList.add('level-button-active')
             levelButtons[1].classList.remove('level-button-active')
             levelButtons[2].classList.remove('level-button-active')
         }
         if (levelButton.value === '2') {
-            window.cardsPairs = 6
+            cardsPairs = 6
             levelButtons[1].classList.add('level-button-active')
             levelButtons[0].classList.remove('level-button-active')
             levelButtons[2].classList.remove('level-button-active')
         }
         if (levelButton.value === '3') {
-            window.cardsPairs = 9
+            cardsPairs = 9
             levelButtons[2].classList.add('level-button-active')
             levelButtons[0].classList.remove('level-button-active')
             levelButtons[1].classList.remove('level-button-active')
         }
-        console.log(window.cardsPairs)
+        console.log(cardsPairs)
     })
 })
 
@@ -49,17 +52,17 @@ startButton.addEventListener('click', () => {
     const timer = document.createElement('div')
     timer.classList.add('timer')
     header.appendChild(timer)
-    const min = document.createElement('p')
-    min.classList.add('min')
-    min.textContent = 'min'
-    const sec = document.createElement('p')
-    sec.classList.add('sec')
-    sec.textContent = 'sec'
+    const minutes = document.createElement('p')
+    minutes.classList.add('min')
+    minutes.textContent = 'min'
+    const seconds = document.createElement('p')
+    seconds.classList.add('sec')
+    seconds.textContent = 'sec'
     const time = document.createElement('p')
     time.classList.add('time')
     time.textContent = '00.00'
-    timer.appendChild(min)
-    timer.appendChild(sec)
+    timer.appendChild(minutes)
+    timer.appendChild(seconds)
     timer.appendChild(time)
     const button = document.createElement('button')
     button.classList.add('repeat-button')
@@ -69,9 +72,39 @@ startButton.addEventListener('click', () => {
     field.classList.add('cards-field')
     container.appendChild(field)
 
+    let sec = 0
+    let min = 0
+    let t: string | number | NodeJS.Timeout | undefined
+
+    function tick() {
+        sec++
+        if (sec >= 60) {
+            sec = 0
+            min++
+        }
+    }
+
+    function add() {
+        tick()
+        time.textContent =
+            (min > 9 ? min : '0' + min) + '.' + (sec > 9 ? sec : '0' + sec)
+        start()
+        totalTime = time.textContent
+    }
+
+    function start() {
+        t = setTimeout(add, 1000)
+    }
+
+    setTimeout(start, 5000)
+
+    button.addEventListener('click', () => {
+        window.location.reload()
+    })
+
     generateField()
 
-    function cardsFieldTemplate(cards) {
+    function cardsFieldTemplate(cards: { name: string; imagePath: string }) {
         const result = document.createElement('div')
         result.classList.add('card', 'flip')
         result.setAttribute('data-name', cards.name)
@@ -97,7 +130,7 @@ startButton.addEventListener('click', () => {
 
     const cards = document.querySelectorAll('.card')
 
-    function flipCard() {
+    function flipCard(this: any) {
         this.classList.add('flip')
 
         if (!hasFlippedCard) {
@@ -116,21 +149,17 @@ startButton.addEventListener('click', () => {
         if (firstCard.dataset.name === secondCard.dataset.name) {
             score++
             console.log(score)
-            if (score === window.cardsPairs) {
+            if (score === cardsPairs) {
+                clearTimeout(t)
                 setTimeout(function () {
-                    alert('Ты победил')
+                    renderFinalScreen(winImg, 'Вы выиграли!')
                 }, 300)
-                setTimeout(function () {
-                    document.location.reload()
-                }, 400)
             }
         } else {
+            clearTimeout(t)
             setTimeout(function () {
-                alert('Ты проиграл')
+                renderFinalScreen(loseImg, 'Вы проиграли!')
             }, 300)
-            setTimeout(function () {
-                document.location.reload()
-            }, 400)
         }
     }
 
@@ -294,13 +323,13 @@ const cardsArr = [
 function generateField() {
     let fieldLength = 0
     const totalCards = cardsArr.length
-    if (window.level === '1') {
+    if (level === '1') {
         fieldLength = 6
     }
-    if (window.level === '2') {
+    if (level === '2') {
         fieldLength = 12
     }
-    if (window.level === '3') {
+    if (level === '3') {
         fieldLength = 18
     }
     let i = 0
@@ -318,6 +347,47 @@ function generateField() {
     console.log(cardsPack)
 }
 
-function getRandomInt(max) {
+function getRandomInt(max: number) {
     return Math.floor(Math.random() * max)
+}
+
+function renderFinalScreen(img: string, text: string) {
+    const finalScreen = document.createElement('div')
+    finalScreen.classList.add('final-screen')
+    screen.appendChild(finalScreen)
+
+    const finalBlock = document.createElement('div')
+    finalBlock.classList.add('difficulty-level')
+    finalScreen.appendChild(finalBlock)
+
+    const finalImg = document.createElement('img')
+    finalImg.setAttribute('src', img)
+    finalImg.classList.add('final-img')
+    finalBlock.appendChild(finalImg)
+
+    const finalTitle = document.createElement('h2')
+    finalTitle.classList.add('final-title')
+    finalTitle.textContent = text
+    finalBlock.appendChild(finalTitle)
+
+    const elapsedTime = document.createElement('p')
+    elapsedTime.classList.add('elapsed-time')
+    elapsedTime.textContent = 'Затраченное время:'
+    finalBlock.appendChild(elapsedTime)
+
+    const finalTime = document.createElement('h1')
+    finalTime.classList.add('final-time')
+    finalTime.textContent = totalTime
+    finalBlock.appendChild(finalTime)
+
+    const finalButton = document.createElement('button')
+    finalButton.classList.add('final-button')
+    finalButton.textContent = 'Играть снова'
+    finalBlock.appendChild(finalButton)
+
+    finalButton.addEventListener('click', () => {
+        document.location.reload()
+    })
+
+    return finalScreen
 }
