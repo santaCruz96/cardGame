@@ -1,38 +1,48 @@
 import './css/style.css'
 
+const LOW_LEVEL_CARDS_PAIRS = 3
+const MID_LEVEL_CARDS_PAIRS = 6
+const HIGH_LEVEL_CARDS_PAIRS = 9
+const LOW_LEVEL = 1
+const MID_LEVEL = 2
+const HIGH_LEVEL = 3
+
 const screen: any = document.querySelector('.screen')
 const levelButtons: any = document.querySelectorAll('.level-button')
 const startButton: any = document.querySelector('.start-button')
 
-let level: string
+type Cards = { name: string; imagePath: string }
+type Card = { dataset: { name: string } }
+
+let level: number
 let cardsPairs: number
-let cardsPack: { name: string; imagePath: string }[] = []
+let cardsPack: Cards[] = []
 const shirt = './img/shirt.jpg'
-let hasFlippedCard = false
-let firstCard: { dataset: { name: string } }, secondCard: { dataset: { name: string } }
+let hasFlippedCard: boolean = false
+let firstCard: Card | any, secondCard: Card | any
 let score = 0
 let totalTime: string
 const winImg = './img/winImg.png'
 const loseImg = './img/loseImg.png'
 
-levelButtons.forEach((levelButton: any) => {
+levelButtons.forEach((levelButton: HTMLButtonElement) => {
     levelButton.addEventListener('click', () => {
         startButton.disabled = false
-        level = levelButton.value
+        level = Number(levelButton.value)
         if (levelButton.value === '1') {
-            cardsPairs = 3
+            cardsPairs = LOW_LEVEL_CARDS_PAIRS
             levelButtons[0].classList.add('level-button-active')
             levelButtons[1].classList.remove('level-button-active')
             levelButtons[2].classList.remove('level-button-active')
         }
         if (levelButton.value === '2') {
-            cardsPairs = 6
+            cardsPairs = MID_LEVEL_CARDS_PAIRS
             levelButtons[1].classList.add('level-button-active')
             levelButtons[0].classList.remove('level-button-active')
             levelButtons[2].classList.remove('level-button-active')
         }
         if (levelButton.value === '3') {
-            cardsPairs = 9
+            cardsPairs = HIGH_LEVEL_CARDS_PAIRS
             levelButtons[2].classList.add('level-button-active')
             levelButtons[0].classList.remove('level-button-active')
             levelButtons[1].classList.remove('level-button-active')
@@ -104,7 +114,7 @@ startButton.addEventListener('click', () => {
 
     generateField()
 
-    function cardsFieldTemplate(cards: { name: string; imagePath: string }) {
+    function cardsFieldTemplate(cards: Cards) {
         const result = document.createElement('div')
         result.classList.add('card', 'flip')
         result.setAttribute('data-name', cards.name)
@@ -169,7 +179,19 @@ startButton.addEventListener('click', () => {
                 card.classList.remove('flip')
             }, 5000)
         }
-        card.addEventListener('click', flipCard)
+        card.addEventListener('click', () => {
+            card.classList.add('flip')
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true
+                firstCard = card
+                return
+            }
+            secondCard = card
+            hasFlippedCard = false
+
+            checkForMatch()
+        })
     })
 })
 
@@ -323,13 +345,13 @@ const cardsArr = [
 function generateField() {
     let fieldLength = 0
     const totalCards = cardsArr.length
-    if (level === '1') {
+    if (level === LOW_LEVEL) {
         fieldLength = 6
     }
-    if (level === '2') {
+    if (level === MID_LEVEL) {
         fieldLength = 12
     }
-    if (level === '3') {
+    if (level === HIGH_LEVEL) {
         fieldLength = 18
     }
     let i = 0
