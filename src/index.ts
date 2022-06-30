@@ -7,19 +7,19 @@ const LOW_LEVEL = 1
 const MID_LEVEL = 2
 const HIGH_LEVEL = 3
 
-const screen: any = document.querySelector('.screen')
-const levelButtons: any = document.querySelectorAll('.level-button')
-const startButton: any = document.querySelector('.start-button')
+const screen = document.querySelector('.screen') as HTMLElement
+const levelButtons: NodeListOf<HTMLButtonElement> =
+    document.querySelectorAll('.level-button')
+const startButton = document.querySelector('.start-button') as HTMLButtonElement
 
 type Cards = { name: string; imagePath: string }
-type Card = { dataset: { name: string } }
 
 let level: number
 let cardsPairs: number
 let cardsPack: Cards[] = []
 const shirt = './img/shirt.jpg'
 let hasFlippedCard: boolean = false
-let firstCard: Card | any, secondCard: Card | any
+let firstCard: Element, secondCard: Element
 let score = 0
 let totalTime: string
 const winImg = './img/winImg.png'
@@ -140,36 +140,26 @@ startButton.addEventListener('click', () => {
 
     const cards = document.querySelectorAll('.card')
 
-    function flipCard(this: any) {
-        this.classList.add('flip')
-
-        if (!hasFlippedCard) {
-            hasFlippedCard = true
-            firstCard = this
-            return
-        }
-
-        secondCard = this
-        hasFlippedCard = false
-
-        checkForMatch()
-    }
-
     function checkForMatch() {
-        if (firstCard.dataset.name === secondCard.dataset.name) {
-            score++
-            console.log(score)
-            if (score === cardsPairs) {
+        if (
+            firstCard instanceof HTMLElement &&
+            secondCard instanceof HTMLElement
+        ) {
+            if (firstCard.dataset.name === secondCard.dataset.name) {
+                score++
+                console.log(score)
+                if (score === cardsPairs) {
+                    clearTimeout(t)
+                    setTimeout(function () {
+                        renderFinalScreen(winImg, 'Вы выиграли!')
+                    }, 300)
+                }
+            } else {
                 clearTimeout(t)
                 setTimeout(function () {
-                    renderFinalScreen(winImg, 'Вы выиграли!')
+                    renderFinalScreen(loseImg, 'Вы проиграли!')
                 }, 300)
             }
-        } else {
-            clearTimeout(t)
-            setTimeout(function () {
-                renderFinalScreen(loseImg, 'Вы проиграли!')
-            }, 300)
         }
     }
 
