@@ -25,29 +25,13 @@ let totalTime: string
 const winImg = './img/winImg.png'
 const loseImg = './img/loseImg.png'
 
+let selectedButton: HTMLButtonElement
 levelButtons.forEach((levelButton: HTMLButtonElement) => {
-    levelButton.addEventListener('click', () => {
+    levelButton.addEventListener('click', (event) => {
+        let button = (<HTMLButtonElement>event.target)
+        highlight(button)
         startButton.disabled = false
-        level = Number(levelButton.value)
-        if (levelButton.value === '1') {
-            cardsPairs = LOW_LEVEL_CARDS_PAIRS
-            levelButtons[0].classList.add('level-button-active')
-            levelButtons[1].classList.remove('level-button-active')
-            levelButtons[2].classList.remove('level-button-active')
-        }
-        if (levelButton.value === '2') {
-            cardsPairs = MID_LEVEL_CARDS_PAIRS
-            levelButtons[1].classList.add('level-button-active')
-            levelButtons[0].classList.remove('level-button-active')
-            levelButtons[2].classList.remove('level-button-active')
-        }
-        if (levelButton.value === '3') {
-            cardsPairs = HIGH_LEVEL_CARDS_PAIRS
-            levelButtons[2].classList.add('level-button-active')
-            levelButtons[0].classList.remove('level-button-active')
-            levelButtons[1].classList.remove('level-button-active')
-        }
-        console.log(cardsPairs)
+        level = Number(button.value)
     })
 })
 
@@ -82,22 +66,22 @@ startButton.addEventListener('click', () => {
     field.classList.add('cards-field')
     container.appendChild(field)
 
-    let sec = 0
-    let min = 0
-    let t: string | number | NodeJS.Timeout | undefined
+    let second = 0
+    let minute = 0
+    let t: NodeJS.Timeout 
 
     function tick() {
-        sec++
-        if (sec >= 60) {
-            sec = 0
-            min++
+        second++
+        if (second >= 60) {
+            second = 0
+            minute++
         }
     }
 
     function add() {
         tick()
         time.textContent =
-            (min > 9 ? min : '0' + min) + '.' + (sec > 9 ? sec : '0' + sec)
+            (minute > 9 ? minute : '0' + minute) + '.' + (second > 9 ? second : '0' + second)
         start()
         totalTime = time.textContent
     }
@@ -337,12 +321,15 @@ function generateField() {
     const totalCards = cardsArr.length
     if (level === LOW_LEVEL) {
         fieldLength = 6
+        cardsPairs = LOW_LEVEL_CARDS_PAIRS
     }
     if (level === MID_LEVEL) {
         fieldLength = 12
+        cardsPairs = MID_LEVEL_CARDS_PAIRS
     }
     if (level === HIGH_LEVEL) {
         fieldLength = 18
+        cardsPairs = HIGH_LEVEL_CARDS_PAIRS
     }
     let i = 0
     while (i < fieldLength / 2) {
@@ -403,3 +390,11 @@ function renderFinalScreen(img: string, text: string) {
 
     return finalScreen
 }
+
+function highlight(activeButton: HTMLButtonElement) {
+    if (selectedButton) { 
+      selectedButton.classList.remove('level-button-active')
+    }
+    selectedButton = activeButton
+    selectedButton.classList.add('level-button-active')
+  }
