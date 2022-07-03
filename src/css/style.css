@@ -13,6 +13,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .difficulty-level {
@@ -85,9 +86,14 @@ body {
     text-align: center;
 }
 
+.start-button:hover {
+    cursor: pointer;
+}
+
 .container {
     width: 979px;
     height: 703px;
+    position: absolute;
 }
 
 .header {
@@ -156,6 +162,10 @@ body {
     text-align: center;
 }
 
+.repeat-button:hover {
+    cursor: pointer;
+}
+
 .cards-field {
     display: flex;
     flex-wrap: wrap;
@@ -175,6 +185,10 @@ body {
     transform: scale(1);
     transform-style: preserve-3d;
     transition: transform 0.5s;
+}
+
+.card:hover {
+    cursor: pointer;
 }
 
 .card:active {
@@ -197,4 +211,59 @@ body {
 
 .front-face {
     transform: rotateY(180deg);
+}
+
+.final-screen {
+    height: 774px;
+    width: 100vw;
+    background-color: rgba(0, 73, 128, 90%);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.final-img {
+    padding-top: 30px;
+}
+
+.final-title {
+    font-weight: 400;
+    font-size: 40px;
+    color: #004980;
+}
+
+.elapsed-time {
+    font-weight: 400;
+    font-size: 24px;
+    padding-top: 28px;
+}
+
+.final-time {
+    font-weight: 400;
+    font-size: 64px;
+    padding-top: 10px;
+    padding-bottom: 40px;
+}
+
+.final-button {
+    font-family: inherit;
+    width: 246px;
+    height: 50px;
+    margin-bottom: 13px;
+    background: #7ac100;
+    border-radius: 12px;
+    border: none;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.final-button:hover {
+    cursor: pointer;
 }
